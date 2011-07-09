@@ -1,4 +1,4 @@
--module(qrly).
+-module(qrly_api).
 -export([behaviour_info/1]).
 
 behaviour_info(callbacks) ->

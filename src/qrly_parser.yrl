@@ -13,6 +13,7 @@ Terminals
 Rootsymbol selectors.
 
 selectors -> selector sep selectors : ['$1'|'$3'].
+selectors -> selector : ['$1'].
 
 selector -> item : '$1'.
 selector -> item attrs: {attr, line('$1'), {unwrap('$1'), '$2'}}.
@@ -37,7 +38,7 @@ item_single -> all: '$1'.
 filters -> filter_param filters : ['$1'|'$2'].
 filters -> filter_param : ['$1'].
 
-filter_param -> filter open selector close : {filter, line('$1'), '$3'}.
+filter_param -> filter open selector close : {filter, line('$1'), {unwrap('$1'), '$3'}}.
 filter_param -> filter : {filter, line('$1'), []}.
 
 attrs -> attrs_items : {attrs, line('$1'), '$1'}.

@@ -16,7 +16,8 @@ selectors -> selector sep selectors : ['$1'|'$3'].
 selectors -> selector : ['$1'].
 
 selector -> item : '$1'.
-selector -> item attrs: {attr, line('$1'), {unwrap('$1'), '$2'}}.
+selector -> attrs : '$1'.
+selector -> item attrs: {item, line('$1'), {unwrap('$1'), '$2'}}.
 selector -> item filters: {filters, line('$1'), ['$1'|'$2']}.
 selector -> filters:      {filters, line('$1'), '$1'}.
 
@@ -39,7 +40,7 @@ filters -> filter_param filters : ['$1'|'$2'].
 filters -> filter_param : ['$1'].
 
 filter_param -> filter open selector close : {filter, line('$1'), {unwrap('$1'), '$3'}}.
-filter_param -> filter : {filter, line('$1'), []}.
+filter_param -> filter : {filter, line('$1'), {unwrap('$1'), nil}}.
 
 attrs -> attrs_items : {attrs, line('$1'), '$1'}.
 

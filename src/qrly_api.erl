@@ -6,7 +6,7 @@ behaviour_info(callbacks) ->
      {parse_string, 1},
      {to_file, 2},
      {to_string, 1},
-     {filter, 1}
+     {filter, 2}
     ];
 
 behaviour_info(_Other) ->

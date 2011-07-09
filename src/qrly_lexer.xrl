@@ -63,7 +63,7 @@ make_token(Name, Line, Chars, Fun) ->
 
 build_string(Type, Chars, Line, Len) ->
   String = unescape_string(lists:sublist(Chars, 2, Len - 2), Line),
-    {token, {Type, Line, String}}.
+    {token, {Type, Line, list_to_binary(String)}}.
 
 unescape_string(String, Line) -> unescape_string(String, Line, []).
 

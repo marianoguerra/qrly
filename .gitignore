@@ -2,3 +2,4 @@
 *.swo
 *.beam
 src/qrly_lexer.erl
+src/qrly_parser.erl

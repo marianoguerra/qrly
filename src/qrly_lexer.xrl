@@ -49,12 +49,12 @@ Rules.
 {String}                 : build_string(string, TokenChars, TokenLine, TokenLen).
 
 % spaces, tabs and new lines
-{Whites}                : make_token(white, TokenLine, length(TokenChars)).
+{Whites}                 : skip_token.
 
 Erlang code.
 
 make_token(Name, Line, Chars) when is_list(Chars) ->
-    {token, {Name, Line, list_to_atom(Chars)}};
+    {token, {Name, Line, list_to_binary(Chars)}};
 make_token(Name, Line, Chars) ->
     {token, {Name, Line, Chars}}.
 

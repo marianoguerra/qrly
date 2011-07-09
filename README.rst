@@ -19,7 +19,7 @@ backend
 HTML (work in progress)
 .......................
 
-the **qrly_xml** provides an api to manipulate and query html using mochiweb_html
+the **qrly_html** provides an api to manipulate and query html using mochiweb_html
 as a backend
 
 License

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<note>
- <to>Tove</to>
- <from>Jani</from>
+<note class="note" id="some-id">
+ <to class="person" id="id1">Tove</to>
+ <from class="person" id="id2">Jani</from>
  <heading>Reminder</heading>
  <body>Don't forget me this weekend!</body>
 </note>

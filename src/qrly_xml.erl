@@ -2,7 +2,7 @@
 -export([parse/1, parse_string/1, to_file/2, to_string/1, filter/2]).
 -include_lib("xmerl/include/xmerl.hrl").
 
--behaviour(qrly_api).
+-behaviour(qrly).
 
 -include_lib("eunit/include/eunit.hrl").
 

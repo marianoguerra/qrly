@@ -30,6 +30,7 @@ for details on selectors check the jquery documentation: http://api.jquery.com/c
 
 * :nth-child(N)
 * :eq(N)
+* :gt(N)
 
 other selectors are not implemented because of lack of time in spawnfest, they
 are really easy to implement (already parsed, but not implemented in qrly:filter)

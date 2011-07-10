@@ -171,7 +171,10 @@ applyFilter(Qrly, <<"nth-child">>, {integer, _, N}) ->
     [lists:nth(N, Qrly)];
 
 applyFilter(Qrly, <<"eq">>, {integer, _, N}) ->
-    [lists:nth(N + 1, Qrly)].
+    [lists:nth(N + 1, Qrly)];
+
+applyFilter(Qrly, <<"gt">>, {integer, _, N}) ->
+    lists:nthtail(N + 1, Qrly).
 
 applyOp(<<"=">>, Left, Right) ->
     Left == Right;

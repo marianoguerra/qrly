@@ -191,3 +191,8 @@ get_by_filter_eq_test() ->
     [FirstTag] = Result,
     assertContent(FirstTag, <<"emesene">>).
 
+get_by_filter_gt_test() ->
+    Result = filter_file("a:gt(4)"),
+    ?assertEqual(5, length(Result)),
+    [FirstTag|_] = Result,
+    assertContent(FirstTag, <<"efene">>).

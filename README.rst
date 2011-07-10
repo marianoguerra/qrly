@@ -28,6 +28,9 @@ for details on selectors check the jquery documentation: http://api.jquery.com/c
 * :odd
 * :even
 
+* :nth-child(N)
+* :eq(N)
+
 other selectors are not implemented because of lack of time in spawnfest, they
 are really easy to implement (already parsed, but not implemented in qrly:filter)
 and should come after the spawnfest ends and I have some time to add them.

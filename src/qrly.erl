@@ -129,6 +129,20 @@ applyOp(<<"*=">>, Expected, Value) ->
             binary:match(Value, Expected) /= nomatch
    end;
 
+applyOp(<<"$=">>, Expected, Value) ->
+    if
+        Value == undefined -> false;
+        true ->
+            Result = binary:match(Value, Expected),
+            case Result of
+                nomatch -> false;
+                {Start, Len} ->
+                    % only return true if matched and the matched string
+                    % ends at the end of the bstring
+                    Start + Len == size(Value)
+            end
+   end;
+
 applyOp(<<"has">>, _Left, Right) ->
     Right /= undefined.
 

@@ -125,3 +125,10 @@ get_tag_has_attr_not_equal_test() ->
     [FirstTag, SecondTag] = Result,
     assertContent(FirstTag, <<"personal">>),
     assertContent(SecondTag, <<"projects">>).
+
+get_by_tag_and_attr_ends_with_test() ->
+    Result = filter_file("a[href$=\"guerra\"]"),
+    ?assertEqual(2, length(Result)),
+    [FirstTag, SecondTag] = Result,
+    assertContent(FirstTag, <<"pictures">>),
+    assertContent(SecondTag, <<"code">>).

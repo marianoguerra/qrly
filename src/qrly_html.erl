@@ -36,8 +36,10 @@ to_file(Qrly, Path) ->
             Error
     end.
 
-to_string(Qrly) ->
-    mochiweb_html:to_html({<<"div">>, [], Qrly}).
+to_string(Qrly) when is_list(Qrly) ->
+    to_string({<<"div">>, [], Qrly});
+to_string(Qrly) when is_tuple(Qrly) ->
+    mochiweb_html:to_html(Qrly).
 
 filter(Qrly, Expression) -> qrly:filter(Qrly, Expression).
 
@@ -176,3 +178,4 @@ get_by_filter_odd_test() ->
     ?assertEqual(5, length(Result)),
     [FirstTag|_] = Result,
     assertContent(FirstTag, <<"pictures">>).
+

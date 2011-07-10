@@ -37,7 +37,7 @@ to_file(Qrly, Path) ->
     end.
 
 to_string(Qrly) ->
-    mochiweb_html:to_html(Qrly).
+    mochiweb_html:to_html({<<"div">>, [], Qrly}).
 
 filter(Qrly, Expression) -> qrly:filter(Qrly, Expression).
 

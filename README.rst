@@ -96,6 +96,16 @@ example
     <div><h1 class="first-title asdwordclass">personal</h1></div>
     ok
 
+testing
+=======
+
+**qrly** uses eunit, just do::
+
+ cd src
+ ./test.sh
+
+it will compile and run the tests
+
 logo
 ====
 

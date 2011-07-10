@@ -42,9 +42,9 @@ Rules.
 
 % identifiers and strings
 {Identifier}             : make_token(tag, TokenLine, TokenChars).
-\.{Identifier}           : make_token(class, TokenLine, TokenChars).
-#{Identifier}            : make_token(id, TokenLine, TokenChars).
-:{Identifier}            : make_token(filter, TokenLine, TokenChars).
+\.{Identifier}           : make_token(class, TokenLine, remove_first(TokenChars)).
+#{Identifier}            : make_token(id, TokenLine, remove_first(TokenChars)).
+:{Identifier}            : make_token(filter, TokenLine, remove_first(TokenChars)).
 
 {String}                 : build_string(string, TokenChars, TokenLine, TokenLen).
 
@@ -93,3 +93,6 @@ map_escaped_char(Escaped, Line) ->
     $v -> $\v;
     _ -> throw({error, {Line, fn_lexer, ["unrecognized escape sequence: ", [$\\, Escaped]]}})
   end.
+
+remove_first([_|T]) ->
+    T.

@@ -142,6 +142,17 @@ query_with_attrs_test() ->
             ]},
         "[attrname=\"foo\"][attrname1*=\"bar\"]").
 
+query_with_filter_test() ->
+    assertQuery({filters, 1, [{filter, 1, {<<"first">>, nil}}]},
+        ":first").
+
+query_with_filters_test() ->
+    assertQuery({filters, 1,
+            [{filter, 1, {<<"first">>, nil}},
+            {filter, 1, {<<"odd">>, nil}}
+            ]},
+        ":first:odd").
+
 query_with_tag_and_class_test() ->
     assertQuery({tag, 1, {<<"h1">>, [{class, 1, <<"first-title">>}]}},
         "h1.first-title").

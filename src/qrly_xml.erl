@@ -46,7 +46,6 @@ filter(Qrly, Expression) -> qrly:filter(Qrly, Expression).
 % internal api
 
 to_neutral(#xmlElement{name=Name, attributes=Attrs, content=Content}) ->
-    io:format("~s~n", [Name]),
     {atom_to_binary(Name, latin1),
         [to_neutral(Attr) || Attr <- Attrs],
         [to_neutral(Child) || Child <- Content]};

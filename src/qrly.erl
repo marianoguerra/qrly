@@ -35,6 +35,7 @@ parse_query(Str) ->
             {Status, Result}
     end.
 
+
 filter_multiple(Qrly, MultiFilters) ->
     filter_multiple(Qrly, MultiFilters, []).
 

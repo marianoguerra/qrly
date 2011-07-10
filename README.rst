@@ -23,6 +23,9 @@ for details on selectors check the jquery documentation: http://api.jquery.com/c
 * Multiple Attribute Selector [name="value"][name2="value2"]
 * Attribute Starts With Selector [name^="value"]
 
+* :first
+* :last
+
 other selectors are not implemented because of lack of time in spawnfest, they
 are really easy to implement (already parsed, but not implemented in qrly:filter)
 and should come after the spawnfest ends and I have some time to add them.

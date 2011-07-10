@@ -52,9 +52,16 @@ filter(Qrly, [], Count) ->
             Qrly
     end;
 
+filter(Qrly, [{tag, _Line, {Name, Filters}}|T], Count) ->
+    NewQrly = walk(Qrly, fun filter_by_tagname/2, Name),
+    filter(NewQrly, Filters ++ T, Count + 1);
+
 filter(Qrly, [{tag, _Line, Name}|T], Count) ->
     NewQrly = walk(Qrly, fun filter_by_tagname/2, Name),
     filter(NewQrly, T, Count + 1);
+
+filter(Qrly, [{filters, _, Filters}|T], Count) ->
+    filter(Qrly, Filters ++ T, Count) ;
 
 filter(Qrly, [{class, _Line, Name}|T], Count) ->
     NewQrly = walk(Qrly, fun filter_by_class/2, Name),

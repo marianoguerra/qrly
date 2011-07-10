@@ -3,3 +3,4 @@
 *.beam
 src/qrly_lexer.erl
 src/qrly_parser.erl
+erl_crash.dump

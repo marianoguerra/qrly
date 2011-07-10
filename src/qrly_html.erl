@@ -179,3 +179,9 @@ get_by_filter_odd_test() ->
     [FirstTag|_] = Result,
     assertContent(FirstTag, <<"pictures">>).
 
+get_by_filter_nth_child_test() ->
+    Result = filter_file("a:nth-child(3)"),
+    ?assertEqual(1, length(Result)),
+    [FirstTag] = Result,
+    assertContent(FirstTag, <<"code">>).
+

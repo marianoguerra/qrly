@@ -154,14 +154,21 @@ odd(Index, _) -> Index rem 2 == 1.
 
 applyFilter([], _, _) ->
     [];
+
 applyFilter([First|_], <<"first">>, _) ->
     [First];
+
 applyFilter(Qrly, <<"last">>, _) ->
     [lists:last(Qrly)];
+
 applyFilter(Qrly, <<"odd">>, _) ->
     listfilter(Qrly, fun odd/2);
+
 applyFilter(Qrly, <<"even">>, _) ->
-    listfilter(Qrly, fun even/2).
+    listfilter(Qrly, fun even/2);
+
+applyFilter(Qrly, <<"nth-child">>, {integer, _, N}) ->
+    [lists:nth(N, Qrly)].
 
 applyOp(<<"=">>, Left, Right) ->
     Left == Right;

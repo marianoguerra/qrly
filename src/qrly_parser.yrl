@@ -1,9 +1,6 @@
 
 Nonterminals
-
-    selectors selector filters filter_param attrs attr attrs_items item item_single
-    childs
-    .
+    selectors selector filter_param attr childs parameter tag_filters .
 
 Terminals
     sep open close open_list close_list integer all op sibling children
@@ -15,37 +12,36 @@ Rootsymbol selectors.
 selectors -> selector sep selectors : ['$1'|'$3'].
 selectors -> selector : ['$1'].
 
-selector -> item : '$1'.
-selector -> attrs : '$1'.
-selector -> item attrs: {item, line('$1'), {unwrap('$1'), '$2'}}.
-selector -> item filters: {filters, line('$1'), ['$1'|'$2']}.
-selector -> filters:      {filters, line('$1'), '$1'}.
+selector -> all     : '$1'.
+selector -> tag     : '$1'.
+selector -> id      : '$1'.
 
-item -> item_single item: {descendant, line('$1'), ['$1'|'$2']}.
-item -> item_single : '$1'.
-item -> item_single sibling item_single: {sibling, line('$1'), {'$1', '$3'}}.
-item -> item_single adjacent item_single: {adjacent, line('$1'), {'$1', '$3'}}.
-item -> childs : {child, line('$1'), '$1'}.
+selector -> tag tag_filters: {tag, line('$1'), {unwrap('$1'), '$2'}}.
+selector -> all tag_filters: {filters, line('$1'), '$1'}.
+selector -> tag_filters: {filters, line('$1'), '$1'}.
 
-childs -> item_single children item_single : ['$1', '$3'].
-childs -> item_single children childs : ['$1'|'$3'].
+tag_filters -> attr tag_filters   : ['$1'|'$2'].
+tag_filters -> class tag_filters  : ['$1'|'$2'].
+tag_filters -> filter_param tag_filters : ['$1'|'$2'].
 
-item_single -> tag : '$1'.
-item_single -> class: '$1'.
-item_single -> id: '$1'.
-item_single -> integer: '$1'.
-item_single -> all: '$1'.
+tag_filters -> filter_param  : [{filter, line('$1'), '$1'}].
+tag_filters -> class : ['$1'].
+tag_filters -> attr : [{attr, line('$1'), '$1'}].
 
-filters -> filter_param filters : ['$1'|'$2'].
-filters -> filter_param : ['$1'].
+%selector -> selector selector : {descendant, line('$1'), ['$1'|'$2']}.
+selector -> selector sibling selector : {sibling, line('$1'), {'$1', '$3'}}.
+selector -> selector adjacent selector : {adjacent, line('$1'), {'$1', '$3'}}.
+selector -> childs : {child, line('$1'), '$1'}.
 
-filter_param -> filter open selector close : {filter, line('$1'), {unwrap('$1'), '$3'}}.
+parameter -> integer :  '$1'.
+parameter -> string  :  '$1'.
+parameter -> selector : '$1'.
+
+childs -> tag children tag : ['$1', '$3'].
+childs -> tag children childs : ['$1'|'$3'].
+
+filter_param -> filter open parameter close : {filter, line('$1'), {unwrap('$1'), '$3'}}.
 filter_param -> filter : {filter, line('$1'), {unwrap('$1'), nil}}.
-
-attrs -> attrs_items : {attrs, line('$1'), '$1'}.
-
-attrs_items -> attr attrs_items : ['$1'|'$2'].
-attrs_items -> attr : ['$1'].
 
 attr -> open_list tag op string close_list :
     {op, line('$1'),

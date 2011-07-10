@@ -89,6 +89,13 @@ example
     <div><h1 class="first-title asdwordclass">personal</h1></div>
     ok
 
+logo
+====
+
+let me introduce you: Qrly the bird
+
+https://github.com/spawnfest/qrly/raw/master/extra/qrly.jpg
+
 license
 =======
 

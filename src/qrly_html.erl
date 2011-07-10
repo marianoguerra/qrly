@@ -100,3 +100,10 @@ get_has_attr_test() ->
     assertTagName(H1Tag, <<"h1">>),
     assertContent(H1Tag, <<"others">>).
 
+get_tag_has_attr_test() ->
+    Result = filter_file("h1[title]"),
+    ?assertEqual(1, length(Result)),
+    [H1Tag] = Result,
+    assertTagName(H1Tag, <<"h1">>),
+    assertContent(H1Tag, <<"others">>).
+

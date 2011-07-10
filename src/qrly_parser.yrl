@@ -24,9 +24,9 @@ tag_filters -> attr tag_filters   : ['$1'|'$2'].
 tag_filters -> class tag_filters  : ['$1'|'$2'].
 tag_filters -> filter_param tag_filters : ['$1'|'$2'].
 
-tag_filters -> filter_param  : [{filter, line('$1'), '$1'}].
+tag_filters -> filter_param  : ['$1'].
 tag_filters -> class : ['$1'].
-tag_filters -> attr : [{attr, line('$1'), '$1'}].
+tag_filters -> attr : ['$1'].
 
 %selector -> selector selector : {descendant, line('$1'), ['$1'|'$2']}.
 selector -> selector sibling selector : {sibling, line('$1'), {'$1', '$3'}}.

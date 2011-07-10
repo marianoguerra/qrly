@@ -132,8 +132,15 @@ query_with_classes_test() ->
         ".first-title.important").
 
 query_with_attr_test() ->
-    assertQuery({filters, 1, [{attr, 1, {op, 1, {<<"=">>, <<"attrname">>, <<"foo">>}}}]},
+    assertQuery({filters, 1, [{op, 1, {<<"=">>, <<"attrname">>, <<"foo">>}}]},
         "[attrname=\"foo\"]").
+
+query_with_attrs_test() ->
+    assertQuery({filters, 1,
+            [{op, 1, {<<"=">>, <<"attrname">>, <<"foo">>}},
+            {op, 1, {<<"*=">>, <<"attrname1">>, <<"bar">>}}
+            ]},
+        "[attrname=\"foo\"][attrname1*=\"bar\"]").
 
 query_with_tag_and_class_test() ->
     assertQuery({tag, 1, {<<"h1">>, [{class, 1, <<"first-title">>}]}},

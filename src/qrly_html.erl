@@ -164,3 +164,15 @@ get_by_filter_last_test() ->
     ?assertEqual(1, length(Result)),
     [FirstTag] = Result,
     assertContent(FirstTag, <<"others">>).
+
+get_by_filter_even_test() ->
+    Result = filter_file("a:even"),
+    ?assertEqual(5, length(Result)),
+    [FirstTag|_] = Result,
+    assertContent(FirstTag, <<"blog">>).
+
+get_by_filter_odd_test() ->
+    Result = filter_file("a:odd"),
+    ?assertEqual(5, length(Result)),
+    [FirstTag|_] = Result,
+    assertContent(FirstTag, <<"pictures">>).

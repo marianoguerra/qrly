@@ -137,13 +137,31 @@ filter_by_attr(_, _) ->
 
 % helpers
 
+listfilter(List, Fun) ->
+    listfilter(List, Fun, [], 0).
+
+listfilter([], _Fun, Accum, _Count) ->
+    lists:reverse(Accum);
+listfilter([H|T], Fun, Accum, Count) ->
+    case Fun(Count, H) of
+        true  -> listfilter(T, Fun, [H|Accum], Count + 1);
+        false -> listfilter(T, Fun, Accum, Count + 1)
+    end.
+
+even(Index, _) -> Index rem 2 == 0.
+
+odd(Index, _) -> Index rem 2 == 1.
+
 applyFilter([], _, _) ->
     [];
 applyFilter([First|_], <<"first">>, _) ->
     [First];
 applyFilter(Qrly, <<"last">>, _) ->
-    [Last|_] = lists:reverse(Qrly),
-    [Last].
+    [lists:last(Qrly)];
+applyFilter(Qrly, <<"odd">>, _) ->
+    listfilter(Qrly, fun odd/2);
+applyFilter(Qrly, <<"even">>, _) ->
+    listfilter(Qrly, fun even/2).
 
 applyOp(<<"=">>, Left, Right) ->
     Left == Right;

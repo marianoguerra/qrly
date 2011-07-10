@@ -157,6 +157,15 @@ applyOp(<<"^=">>, Expected, Value) ->
             end
    end;
 
+applyOp(<<"~=">>, Expected, Value) ->
+    if
+        Value == undefined ->
+            discard;
+        true ->
+            Values = binary:split(Value, <<" ">>, [global]),
+            lists:member(Expected, Values)
+    end;
+
 applyOp(<<"has">>, _Left, Right) ->
     Right /= undefined.
 

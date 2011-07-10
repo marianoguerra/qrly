@@ -139,3 +139,10 @@ get_by_tag_and_attr_begins_with_test() ->
     [FirstTag, SecondTag] = Result,
     assertContent(FirstTag, <<"blog">>),
     assertContent(SecondTag, <<"fnt">>).
+
+get_by_tag_and_attr_contains_word_test() ->
+    Result = filter_file("h1[class~=\"wordclass\"]"),
+    ?assertEqual(2, length(Result)),
+    [FirstTag, SecondTag] = Result,
+    assertContent(FirstTag, <<"projects">>),
+    assertContent(SecondTag, <<"others">>).

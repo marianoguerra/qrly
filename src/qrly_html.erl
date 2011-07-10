@@ -1,9 +1,11 @@
 -module(qrly_html).
--export([parse/1, parse_string/1, to_file/2, to_string/1, filter/2]).
+-export([parse/1, parse_string/1, to_file/2, to_string/1, filter/2, test/0]).
 
 -behaviour(qrly).
 
 -include_lib("eunit/include/eunit.hrl").
+
+-define(TEST_FILE, "../extra/test/test.html").
 
 % external api
 
@@ -39,11 +41,44 @@ to_string(Qrly) ->
 
 filter(Qrly, Expression) -> {Qrly, Expression}.
 
+% test helpers
+
+filter_file(Expr) ->
+    {ok, Content} = parse(?TEST_FILE),
+    qrly:filter(Content, Expr).
+
+test() ->
+    eunit:test(?MODULE).
+
+assertContent(Tag, ExpectedContent) ->
+    {_, _, [Content]} = Tag,
+    ?assertEqual(ExpectedContent, Content).
+
 % tests
 
 parse_existing_test() ->
-    ok, _Content = parse("extras/test/test.html").
+    ok, _Content = parse(?TEST_FILE).
 
 parse_inexisting_test() ->
-    error, _Content = parse("extras/test/inexisting.html").
+    error, _Content = parse("extra/test/inexisting.html").
+
+get_tag_test() ->
+    Result = filter_file("h1"),
+    ?assertEqual(3, length(Result)),
+    [FirstTag, SecondTag, ThirdTag] = Result,
+    assertContent(FirstTag, <<"personal">>),
+    assertContent(SecondTag, <<"projects">>),
+    assertContent(ThirdTag, <<"others">>).
+
+get_by_class_test() ->
+    Result = filter_file(".first-title"),
+    ?assertEqual(1, length(Result)),
+    [FirstTag] = Result,
+    assertContent(FirstTag, <<"personal">>).
+
+get_by_class_and_tag_test() ->
+    Result = filter_file("h1.first-title"),
+    ?assertEqual(1, length(Result)),
+    [FirstTag] = Result,
+    assertContent(FirstTag, <<"personal">>).
 

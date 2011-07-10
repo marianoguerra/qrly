@@ -73,7 +73,14 @@ filter(Qrly, [{class, _Line, Name}|T], Count) ->
 
 filter(Qrly, [{op, _Line, Operation}|T], Count) ->
     NewQrly = walk(Qrly, fun filter_by_attr/2, Operation),
-    filter(NewQrly, T, Count + 1).
+    filter(NewQrly, T, Count + 1);
+
+filter(Qrly, [{filter, _Line, {FilterName, Args}}|T], _Count) ->
+    % XXX: important, we reverse it here so it makes sense for filters
+    % like :first, :last, :odd, :even and we reset the counter
+    % because we have it in order again
+    NewQrly = applyFilter(lists:reverse(Qrly), FilterName, Args),
+    filter(NewQrly, T, 0).
 
 % filters
 filter_by_tagname(TagName, {TagName, _Attrs, _Childs}) ->
@@ -129,6 +136,14 @@ filter_by_attr(_, _) ->
 
 
 % helpers
+
+applyFilter([], _, _) ->
+    [];
+applyFilter([First|_], <<"first">>, _) ->
+    [First];
+applyFilter(Qrly, <<"last">>, _) ->
+    [Last|_] = lists:reverse(Qrly),
+    [Last].
 
 applyOp(<<"=">>, Left, Right) ->
     Left == Right;

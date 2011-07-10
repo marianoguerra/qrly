@@ -152,3 +152,15 @@ get_by_id_test() ->
     ?assertEqual(1, length(Result)),
     [FirstTag] = Result,
     assertContent(FirstTag, <<"the game">>).
+
+get_by_filter_first_test() ->
+    Result = filter_file("h1:first"),
+    ?assertEqual(1, length(Result)),
+    [FirstTag] = Result,
+    assertContent(FirstTag, <<"personal">>).
+
+get_by_filter_last_test() ->
+    Result = filter_file("h1:last"),
+    ?assertEqual(1, length(Result)),
+    [FirstTag] = Result,
+    assertContent(FirstTag, <<"others">>).

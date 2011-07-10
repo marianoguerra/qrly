@@ -146,3 +146,9 @@ get_by_tag_and_attr_contains_word_test() ->
     [FirstTag, SecondTag] = Result,
     assertContent(FirstTag, <<"projects">>),
     assertContent(SecondTag, <<"others">>).
+
+get_by_id_test() ->
+    Result = filter_file("#thegame"),
+    ?assertEqual(1, length(Result)),
+    [FirstTag] = Result,
+    assertContent(FirstTag, <<"the game">>).

@@ -63,6 +63,10 @@ filter(Qrly, [{tag, _Line, Name}|T], Count) ->
 filter(Qrly, [{filters, _, Filters}|T], Count) ->
     filter(Qrly, Filters ++ T, Count) ;
 
+filter(Qrly, [{id, _Line, Name}|T], Count) ->
+    NewQrly = walk(Qrly, fun filter_by_id/2, Name),
+    filter(NewQrly, T, Count + 1);
+
 filter(Qrly, [{class, _Line, Name}|T], Count) ->
     NewQrly = walk(Qrly, fun filter_by_class/2, Name),
     filter(NewQrly, T, Count + 1);
@@ -94,6 +98,16 @@ filter_by_class(ClassName, {_, Attrs, _}) when length(Attrs) > 0 ->
     end;
 
 filter_by_class(_, _) ->
+    discard.
+
+filter_by_id(IdName, {_, Attrs, _}) when length(Attrs) > 0 ->
+    Id = proplists:get_value(<<"id">>, Attrs),
+    if
+        Id == IdName -> keep;
+        true -> discard
+    end;
+
+filter_by_id(_, _) ->
     discard.
 
 filter_by_attr({Op, AttrName, Expected}, {_, Attrs, _}) ->

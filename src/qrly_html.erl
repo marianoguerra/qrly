@@ -185,3 +185,9 @@ get_by_filter_nth_child_test() ->
     [FirstTag] = Result,
     assertContent(FirstTag, <<"code">>).
 
+get_by_filter_eq_test() ->
+    Result = filter_file("a:eq(3)"),
+    ?assertEqual(1, length(Result)),
+    [FirstTag] = Result,
+    assertContent(FirstTag, <<"emesene">>).
+

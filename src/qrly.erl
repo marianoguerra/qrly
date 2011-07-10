@@ -168,7 +168,10 @@ applyFilter(Qrly, <<"even">>, _) ->
     listfilter(Qrly, fun even/2);
 
 applyFilter(Qrly, <<"nth-child">>, {integer, _, N}) ->
-    [lists:nth(N, Qrly)].
+    [lists:nth(N, Qrly)];
+
+applyFilter(Qrly, <<"eq">>, {integer, _, N}) ->
+    [lists:nth(N + 1, Qrly)].
 
 applyOp(<<"=">>, Left, Right) ->
     Left == Right;

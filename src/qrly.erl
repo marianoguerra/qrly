@@ -96,7 +96,7 @@ filter_by_class(ClassName, {_, Attrs, _}) when length(Attrs) > 0 ->
 filter_by_class(_, _) ->
     discard.
 
-filter_by_attr({Op, AttrName, Expected}, {_, Attrs, _}) when length(Attrs) > 0 ->
+filter_by_attr({Op, AttrName, Expected}, {_, Attrs, _}) ->
     Value = proplists:get_value(AttrName, Attrs),
 
     Result = applyOp(Op, Expected, Value),
@@ -118,6 +118,9 @@ filter_by_attr(_, _) ->
 
 applyOp(<<"=">>, Left, Right) ->
     Left == Right;
+
+applyOp(<<"!=">>, Left, Right) ->
+    Left /= Right;
 
 applyOp(<<"*=">>, Expected, Value) ->
     if

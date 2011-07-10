@@ -118,3 +118,10 @@ get_by_tag_and_attr_contains_test() ->
     ?assertEqual(5, length(Result)),
     [FirstTag|_] = Result,
     assertContent(FirstTag, <<"blog">>).
+
+get_tag_has_attr_not_equal_test() ->
+    Result = filter_file("h1[title!=\"others\"]"),
+    ?assertEqual(2, length(Result)),
+    [FirstTag, SecondTag] = Result,
+    assertContent(FirstTag, <<"personal">>),
+    assertContent(SecondTag, <<"projects">>).

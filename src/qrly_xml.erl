@@ -41,7 +41,7 @@ to_file(Qrly, Path) ->
 to_string(Qrly) ->
     mochiweb_html:to_html(Qrly).
 
-filter(Qrly, Expression) -> {Qrly, Expression}.
+filter(Qrly, Expression) -> qrly:filter(Qrly, Expression).
 
 % internal api
 

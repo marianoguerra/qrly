@@ -39,13 +39,13 @@ to_file(Qrly, Path) ->
 to_string(Qrly) ->
     mochiweb_html:to_html(Qrly).
 
-filter(Qrly, Expression) -> {Qrly, Expression}.
+filter(Qrly, Expression) -> qrly:filter(Qrly, Expression).
 
 % test helpers
 
 filter_file(Expr) ->
     {ok, Content} = parse(?TEST_FILE),
-    qrly:filter(Content, Expr).
+    filter(Content, Expr).
 
 test() ->
     eunit:test(?MODULE).

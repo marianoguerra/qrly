@@ -132,3 +132,10 @@ get_by_tag_and_attr_ends_with_test() ->
     [FirstTag, SecondTag] = Result,
     assertContent(FirstTag, <<"pictures">>),
     assertContent(SecondTag, <<"code">>).
+
+get_by_tag_and_attr_begins_with_test() ->
+    Result = filter_file("a[href^=\"http://marianoguerra\"]"),
+    ?assertEqual(2, length(Result)),
+    [FirstTag, SecondTag] = Result,
+    assertContent(FirstTag, <<"blog">>),
+    assertContent(SecondTag, <<"fnt">>).

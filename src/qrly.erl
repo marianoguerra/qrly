@@ -143,6 +143,20 @@ applyOp(<<"$=">>, Expected, Value) ->
             end
    end;
 
+applyOp(<<"^=">>, Expected, Value) ->
+    if
+        Value == undefined -> false;
+        true ->
+            Result = binary:match(Value, Expected),
+            case Result of
+                nomatch -> false;
+                {Start, _} ->
+                    % only return true if matched and the matched string
+                    % starts at the beggining of the bstring
+                    Start == 0
+            end
+   end;
+
 applyOp(<<"has">>, _Left, Right) ->
     Right /= undefined.
 

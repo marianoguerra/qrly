@@ -1,6 +1,6 @@
 
 Nonterminals
-    selectors selector filter_param attr childs parameter tag_filters .
+    selectors multiple_selectors selector filter_param attr childs parameter tag_filters .
 
 Terminals
     sep open close open_list close_list integer all op sibling child
@@ -9,8 +9,17 @@ Terminals
 
 Rootsymbol selectors.
 
-selectors -> selector sep selectors : ['$1'|'$3'].
-selectors -> selector : ['$1'].
+selectors -> multiple_selectors :
+ Result = '$1',
+ Length = length(Result),
+
+ if
+     Length > 1 -> {multiple, line(Result), Result};
+     true -> '$1'
+ end.
+
+multiple_selectors -> selector sep multiple_selectors : ['$1'|'$3'].
+multiple_selectors -> selector : ['$1'].
 
 selector -> all     : '$1'.
 selector -> tag     : '$1'.

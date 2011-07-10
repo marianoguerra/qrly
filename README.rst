@@ -33,6 +33,8 @@ for details on selectors check the jquery documentation: http://api.jquery.com/c
 * :gt(N)
 * :lt(N)
 
+* Multiple Selector (“selector1, selector2, selectorN”)
+
 other selectors are not implemented because of lack of time in spawnfest, they
 are really easy to implement (already parsed, but not implemented in qrly:filter)
 and should come after the spawnfest ends and I have some time to add them.

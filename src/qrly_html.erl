@@ -202,3 +202,11 @@ get_by_filter_lt_test() ->
     ?assertEqual(5, length(Result)),
     [FirstTag|_] = Result,
     assertContent(FirstTag, <<"blog">>).
+
+get_by_multiple_filters_test() ->
+    Result = filter_file("h1:lt(1), a:lt(4)"),
+    ?assertEqual(7, length(Result)),
+    [FirstTag, SecondTag, ThirdTag|_] = Result,
+    assertContent(FirstTag, <<"personal">>),
+    assertContent(SecondTag, <<"projects">>),
+    assertContent(ThirdTag, <<"blog">>).

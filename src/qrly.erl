@@ -35,9 +35,24 @@ parse_query(Str) ->
             {Status, Result}
     end.
 
+filter_multiple(Qrly, MultiFilters) ->
+    filter_multiple(Qrly, MultiFilters, []).
+
+filter_multiple(_Qrly, [], Accum) ->
+    Accum;
+
+filter_multiple(Qrly, [Filter|MultiFilters], Accum) ->
+    filter_multiple(Qrly, MultiFilters, Accum ++ filter(Qrly, [Filter], 0)).
+
 filter(Qrly, [H|_] = FilterStr) when is_list(FilterStr) andalso  is_integer(H) ->
     {ok, Filter} = parse_query(FilterStr),
-    filter(Qrly, Filter, 0).
+
+    case Filter of
+        {multiple, _, MultiFilters} ->
+            filter_multiple(Qrly, MultiFilters);
+        _ ->
+            filter(Qrly, Filter, 0)
+    end.
 
 % when we got no more results to filter return it
 filter([], _, _) ->
@@ -79,7 +94,7 @@ filter(Qrly, [{filter, _Line, {FilterName, Args}}|T], _Count) ->
     % XXX: important, we reverse it here so it makes sense for filters
     % like :first, :last, :odd, :even and we reset the counter
     % because we have it in order again
-    NewQrly = applyFilter(lists:reverse(Qrly), FilterName, Args),
+    NewQrly = apply_filter(lists:reverse(Qrly), FilterName, Args),
     filter(NewQrly, T, 0).
 
 % filters
@@ -120,7 +135,7 @@ filter_by_id(_, _) ->
 filter_by_attr({Op, AttrName, Expected}, {_, Attrs, _}) ->
     Value = proplists:get_value(AttrName, Attrs),
 
-    Result = applyOp(Op, Expected, Value),
+    Result = apply_op(Op, Expected, Value),
 
     if
         Value == undefined andalso Result == false ->
@@ -152,47 +167,47 @@ even(Index, _) -> Index rem 2 == 0.
 
 odd(Index, _) -> Index rem 2 == 1.
 
-applyFilter([], _, _) ->
+apply_filter([], _, _) ->
     [];
 
-applyFilter([First|_], <<"first">>, _) ->
+apply_filter([First|_], <<"first">>, _) ->
     [First];
 
-applyFilter(Qrly, <<"last">>, _) ->
+apply_filter(Qrly, <<"last">>, _) ->
     [lists:last(Qrly)];
 
-applyFilter(Qrly, <<"odd">>, _) ->
+apply_filter(Qrly, <<"odd">>, _) ->
     listfilter(Qrly, fun odd/2);
 
-applyFilter(Qrly, <<"even">>, _) ->
+apply_filter(Qrly, <<"even">>, _) ->
     listfilter(Qrly, fun even/2);
 
-applyFilter(Qrly, <<"nth-child">>, {integer, _, N}) ->
+apply_filter(Qrly, <<"nth-child">>, {integer, _, N}) ->
     [lists:nth(N, Qrly)];
 
-applyFilter(Qrly, <<"eq">>, {integer, _, N}) ->
+apply_filter(Qrly, <<"eq">>, {integer, _, N}) ->
     [lists:nth(N + 1, Qrly)];
 
-applyFilter(Qrly, <<"gt">>, {integer, _, N}) ->
+apply_filter(Qrly, <<"gt">>, {integer, _, N}) ->
     lists:nthtail(N + 1, Qrly);
 
-applyFilter(Qrly, <<"lt">>, {integer, _, N}) ->
+apply_filter(Qrly, <<"lt">>, {integer, _, N}) ->
     lists:sublist(Qrly, N + 1).
 
-applyOp(<<"=">>, Left, Right) ->
+apply_op(<<"=">>, Left, Right) ->
     Left == Right;
 
-applyOp(<<"!=">>, Left, Right) ->
+apply_op(<<"!=">>, Left, Right) ->
     Left /= Right;
 
-applyOp(<<"*=">>, Expected, Value) ->
+apply_op(<<"*=">>, Expected, Value) ->
     if
         Value == undefined -> false;
         true ->
             binary:match(Value, Expected) /= nomatch
    end;
 
-applyOp(<<"$=">>, Expected, Value) ->
+apply_op(<<"$=">>, Expected, Value) ->
     if
         Value == undefined -> false;
         true ->
@@ -206,7 +221,7 @@ applyOp(<<"$=">>, Expected, Value) ->
             end
    end;
 
-applyOp(<<"^=">>, Expected, Value) ->
+apply_op(<<"^=">>, Expected, Value) ->
     if
         Value == undefined -> false;
         true ->
@@ -220,7 +235,7 @@ applyOp(<<"^=">>, Expected, Value) ->
             end
    end;
 
-applyOp(<<"~=">>, Expected, Value) ->
+apply_op(<<"~=">>, Expected, Value) ->
     if
         Value == undefined ->
             discard;
@@ -229,7 +244,7 @@ applyOp(<<"~=">>, Expected, Value) ->
             lists:member(Expected, Values)
     end;
 
-applyOp(<<"has">>, _Left, Right) ->
+apply_op(<<"has">>, _Left, Right) ->
     Right /= undefined.
 
 test() ->
@@ -340,7 +355,7 @@ query_with_tag_and_classes_test() ->
         "h1.first-title.important").
 
 query_with_multiple_selectors_test() ->
-    assertQueries([{tag, 1, <<"h1">>}, {tag, 1, <<"h2">>}, {tag, 1, <<"h3">>}],
+    assertQueries({multiple, 1, [{tag, 1, <<"h1">>}, {tag, 1, <<"h2">>}, {tag, 1, <<"h3">>}]},
         "h1, h2, h3").
 
 child_test() ->

@@ -12,32 +12,32 @@ supported selectors
 
 for details on selectors check the jquery documentation: http://api.jquery.com/category/selectors/
 
- * .class
- * #id
- * tagname
- * Attribute Contains Selector [name*="value"]
- * Attribute Contains Word Selector [name~="value"]
- * Attribute Ends With Selector [name$="value"]
- * Attribute Equals Selector [name="value"]
- * Attribute Not Equal Selector [name!="value"]
- * Attribute Not Equal Selector [name!="value"]
- * Multiple Attribute Selector [name="value"][name2="value2"]
+* .class
+* #id
+* tagname
+* Attribute Contains Selector [name*="value"]
+* Attribute Contains Word Selector [name~="value"]
+* Attribute Ends With Selector [name$="value"]
+* Attribute Equals Selector [name="value"]
+* Attribute Not Equal Selector [name!="value"]
+* Multiple Attribute Selector [name="value"][name2="value2"]
+* Attribute Starts With Selector [name^="value"]
 
 other selectors are not implemented because of lack of time in spawnfest, they
-are really easy to implement and should come after the spawnfest ends and I
-have some time to add them.
+are really easy to implement (already parsed, but not implemented in qrly:filter)
+and should come after the spawnfest ends and I have some time to add them.
 
 supported data formats
 ======================
 
-XML (work in progress)
-......................
+XML
+...
 
 the **qrly_xml** provides an api to manipulate and query xml using xmerl as a
 backend
 
-HTML (work in progress)
-.......................
+HTML
+....
 
 the **qrly_html** provides an api to manipulate and query html using mochiweb_html
 as a backend
@@ -45,15 +45,15 @@ as a backend
 usage
 =====
 
-use qrly_html:parse, qrly_html:parse_string to load from file or string an html
-file and convert it to a qrly data structure and then use qrly_html:filter to
-apply the transformations.
+use **qrly_html:parse** or **qrly_html:parse_string** to load from file or
+string an html file and convert it to a qrly data structure and then use
+**qrly_html:filter** to apply the filtering.
 
-if you want your string back call qrly_html:to_string.
-if you want to store it on a file call qrly_html:to_file.
+if you want your string back call **qrly_html:to_string**.
+if you want to store it on a file **call qrly_html:to_file**.
 
-the same instructions work for qrly_xml and any other future implementation of
-the api.
+the same instructions work for **qrly_xml** and any other future implementation
+of the api (imagine querying json structures with this).
 
 example
 =======

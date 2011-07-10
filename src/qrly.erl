@@ -166,6 +166,10 @@ query_with_classes_test() ->
     assertQuery({filters, 1, [{class, 1, <<"first-title">>}, {class, 1, <<"important">>}]},
         ".first-title.important").
 
+query_has_attr_test() ->
+    assertQuery({filters, 1, [{op, 1, {<<"has">>, <<"attrname">>, nil}}]},
+        "[attrname]").
+
 query_with_attr_test() ->
     assertQuery({filters, 1, [{op, 1, {<<"=">>, <<"attrname">>, <<"foo">>}}]},
         "[attrname=\"foo\"]").

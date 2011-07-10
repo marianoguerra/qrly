@@ -47,6 +47,9 @@ attr -> open_list tag op string close_list :
     {op, line('$1'),
         {unwrap('$3'), unwrap('$2'), unwrap('$4')}}.
 
+attr -> open_list tag close_list :
+    {op, line('$1'), {<<"has">>, unwrap('$2'), nil}}.
+
 Erlang code.
 
 unwrap({_,_,V}) -> V.

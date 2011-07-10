@@ -102,7 +102,7 @@ filter_by_attr({Op, AttrName, Expected}, {_, Attrs, _}) when length(Attrs) > 0 -
     Result = applyOp(Op, Expected, Value),
 
     if
-        Value == undefined ->
+        Value == undefined andalso Result == false ->
             discard;
         Result == true ->
             keep;
@@ -117,7 +117,10 @@ filter_by_attr(_, _) ->
 % helpers
 
 applyOp(<<"=">>, Left, Right) ->
-    Left == Right.
+    Left == Right;
+
+applyOp(<<"has">>, _Left, Right) ->
+    Right /= undefined.
 
 test() ->
     eunit:test(?MODULE).

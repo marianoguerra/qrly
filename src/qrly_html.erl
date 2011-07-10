@@ -54,6 +54,10 @@ assertContent(Tag, ExpectedContent) ->
     {_, _, [Content]} = Tag,
     ?assertEqual(ExpectedContent, Content).
 
+assertTagName(Tag, ExpectedName) ->
+    {TagName, _, _} = Tag,
+    ?assertEqual(ExpectedName, TagName).
+
 % tests
 
 parse_existing_test() ->
@@ -87,4 +91,12 @@ get_by_tag_and_attr_equal_test() ->
     ?assertEqual(1, length(Result)),
     [FirstTag] = Result,
     assertContent(FirstTag, <<"emesene">>).
+
+get_has_attr_test() ->
+    Result = filter_file("[title]"),
+    ?assertEqual(2, length(Result)),
+    [BodyTag, H1Tag] = Result,
+    assertTagName(BodyTag, <<"body">>),
+    assertTagName(H1Tag, <<"h1">>),
+    assertContent(H1Tag, <<"others">>).
 

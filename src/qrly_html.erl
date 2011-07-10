@@ -82,3 +82,9 @@ get_by_class_and_tag_test() ->
     [FirstTag] = Result,
     assertContent(FirstTag, <<"personal">>).
 
+get_by_tag_and_attr_equal_test() ->
+    Result = filter_file("a[href=\"http://www.emesene.org\"]"),
+    ?assertEqual(1, length(Result)),
+    [FirstTag] = Result,
+    assertContent(FirstTag, <<"emesene">>).
+

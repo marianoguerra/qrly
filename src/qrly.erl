@@ -65,6 +65,10 @@ filter(Qrly, [{filters, _, Filters}|T], Count) ->
 
 filter(Qrly, [{class, _Line, Name}|T], Count) ->
     NewQrly = walk(Qrly, fun filter_by_class/2, Name),
+    filter(NewQrly, T, Count + 1);
+
+filter(Qrly, [{op, _Line, Operation}|T], Count) ->
+    NewQrly = walk(Qrly, fun filter_by_attr/2, Operation),
     filter(NewQrly, T, Count + 1).
 
 % filters
@@ -92,8 +96,28 @@ filter_by_class(ClassName, {_, Attrs, _}) when length(Attrs) > 0 ->
 filter_by_class(_, _) ->
     discard.
 
+filter_by_attr({Op, AttrName, Expected}, {_, Attrs, _}) when length(Attrs) > 0 ->
+    Value = proplists:get_value(AttrName, Attrs),
+
+    Result = applyOp(Op, Expected, Value),
+
+    if
+        Value == undefined ->
+            discard;
+        Result == true ->
+            keep;
+        true ->
+            discard
+    end;
+
+filter_by_attr(_, _) ->
+    discard.
+
 
 % helpers
+
+applyOp(<<"=">>, Left, Right) ->
+    Left == Right.
 
 test() ->
     eunit:test(?MODULE).

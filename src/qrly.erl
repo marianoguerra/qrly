@@ -161,6 +161,15 @@ query_with_filters_param_test() ->
     assertQuery({filters, 1, [{filter, 1, {<<"eq">>, {integer, 1, 2}}}, {filter, 1, {<<"has">>, {string, 1, <<"something">>}}}]},
         ":eq(2):has(\"something\")").
 
+query_with_mixed_filters_test() ->
+    assertQuery({filters, 1,
+            [{filter, 1, {<<"first">>, nil}},
+            {op, 1, {<<"*=">>, <<"attrname1">>, <<"bar">>}},
+            {filter, 1, {<<"eq">>, {integer, 1, 42}}},
+            {class, 1, <<"someclass">>}
+            ]},
+        ":first[attrname1*=\"bar\"]:eq(42).someclass").
+
 query_with_tag_and_class_test() ->
     assertQuery({tag, 1, {<<"h1">>, [{class, 1, <<"first-title">>}]}},
         "h1.first-title").

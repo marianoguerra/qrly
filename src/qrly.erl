@@ -194,3 +194,19 @@ query_with_tag_and_classes_test() ->
 query_with_multiple_selectors_test() ->
     assertQueries([{tag, 1, <<"h1">>}, {tag, 1, <<"h2">>}, {tag, 1, <<"h3">>}],
         "h1, h2, h3").
+
+child_test() ->
+    assertQuery({child, 1, [{tag, 1, <<"div">>}, {tag, 1, <<"h1">>}]},
+        "div > h1").
+
+childs_test() ->
+    assertQuery({child, 1, [{tag, 1, <<"div">>}, {tag, 1, <<"p">>}, {tag, 1, <<"h1">>}]},
+        "div > p > h1").
+
+sibling_test() ->
+    assertQuery({sibling, 1, {{tag, 1, <<"div">>}, {tag, 1, <<"h1">>}}},
+        "div ~ h1").
+
+adjacent_test() ->
+    assertQuery({adjacent, 1, {{tag, 1, <<"div">>},{tag, 1, <<"h1">>}}},
+        "div + h1").

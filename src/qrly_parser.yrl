@@ -3,7 +3,7 @@ Nonterminals
     selectors selector filter_param attr childs parameter tag_filters .
 
 Terminals
-    sep open close open_list close_list integer all op sibling children
+    sep open close open_list close_list integer all op sibling child
     adjacent tag class id filter string
     .
 
@@ -37,8 +37,8 @@ parameter -> integer :  '$1'.
 parameter -> string  :  '$1'.
 parameter -> selector : '$1'.
 
-childs -> tag children tag : ['$1', '$3'].
-childs -> tag children childs : ['$1'|'$3'].
+childs -> tag child tag : ['$1', '$3'].
+childs -> tag child childs : ['$1'|'$3'].
 
 filter_param -> filter open parameter close : {filter, line('$1'), {unwrap('$1'), '$3'}}.
 filter_param -> filter : {filter, line('$1'), {unwrap('$1'), nil}}.

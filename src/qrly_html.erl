@@ -107,3 +107,14 @@ get_tag_has_attr_test() ->
     assertTagName(H1Tag, <<"h1">>),
     assertContent(H1Tag, <<"others">>).
 
+get_attr_contains_test() ->
+    Result = filter_file("[href*=\"marianoguerra\"]"),
+    ?assertEqual(5, length(Result)),
+    [FirstTag|_] = Result,
+    assertContent(FirstTag, <<"blog">>).
+
+get_by_tag_and_attr_contains_test() ->
+    Result = filter_file("a[href*=\"marianoguerra\"]"),
+    ?assertEqual(5, length(Result)),
+    [FirstTag|_] = Result,
+    assertContent(FirstTag, <<"blog">>).

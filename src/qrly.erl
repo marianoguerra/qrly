@@ -119,6 +119,13 @@ filter_by_attr(_, _) ->
 applyOp(<<"=">>, Left, Right) ->
     Left == Right;
 
+applyOp(<<"*=">>, Expected, Value) ->
+    if
+        Value == undefined -> false;
+        true ->
+            binary:match(Value, Expected) /= nomatch
+   end;
+
 applyOp(<<"has">>, _Left, Right) ->
     Right /= undefined.
 

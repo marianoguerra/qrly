@@ -123,6 +123,10 @@ assertQuery(Expected, Expr) ->
     {ok, [Query]} = parse_query(Expr),
     ?assertEqual(Expected, Query).
 
+assertQueries(Expected, Expr) ->
+    {ok, Query} = parse_query(Expr),
+    ?assertEqual(Expected, Query).
+
 query_with_class_test() ->
     assertQuery({filters, 1, [{class, 1, <<"first-title">>}]},
         ".first-title").
@@ -186,3 +190,7 @@ query_with_tag_and_class_test() ->
 query_with_tag_and_classes_test() ->
     assertQuery({tag, 1, {<<"h1">>, [{class, 1, <<"first-title">>}, {class, 1, <<"important">>}]}},
         "h1.first-title.important").
+
+query_with_multiple_selectors_test() ->
+    assertQueries([{tag, 1, <<"h1">>}, {tag, 1, <<"h2">>}, {tag, 1, <<"h3">>}],
+        "h1, h2, h3").

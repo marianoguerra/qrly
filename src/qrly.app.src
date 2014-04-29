@@ -1,0 +1,7 @@
+{application, qrly,
+ [{description, "jQuery-like selector API for HTML & XML"},
+  {vsn, "0.0.1"},
+  {modules, []},
+  {registered, []},
+  {env, []},
+  {applications, [kernel, stdlib]}]}.
